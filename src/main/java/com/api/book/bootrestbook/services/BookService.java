@@ -16,7 +16,8 @@ public class BookService {
     static {
         list.add(new Book(1001, "Create your API", "Dev-DXS"));
         list.add(new Book(1002, "Configuring APIs", "Dev-DXS"));
-        list.add(new Book(1003, "Depth Understaing Of Application Architecture", "Dev-DXS"));
+        list.add(new Book(1003, "Depth Understaing Of Application Architecture",
+                "Dev-DXS"));
         list.add(new Book(1004, "World Of Devlopment", "DXS_Edu"));
     }
 
@@ -29,8 +30,12 @@ public class BookService {
     public Book getBookByID(int bookID) {
 
         // Using stream
-        Book b2 = new Book();
-        b2 = list.stream().filter(e -> e.getBookID() == bookID).findFirst().get();
+        Book b2 = null;
+        try {
+            b2 = list.stream().filter(e -> e.getBookID() == bookID).findFirst().get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return b2;
 
         // forEach
@@ -46,6 +51,7 @@ public class BookService {
 
     // Adding a book
     public Book addBook(Book b) {
+
         list.add(b);
         return b;
     }
