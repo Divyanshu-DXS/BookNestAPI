@@ -1,9 +1,9 @@
 package com.api.book.bootrestbook.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import com.api.book.bootrestbook.Entities.Book;
@@ -62,11 +62,19 @@ public class BookService {
     }
 
     // Deleting a book
-    public List<Book> deleteBookByID(int bookID) {
+    // public List<Book> deleteBookByID(int bookID) {
 
-        this.bookRepo.deleteById(bookID);
-        List<Book> list = getAllBooks();
-        return list;
+    // this.bookRepo.deleteById(bookID);
+    // List<Book> list = getAllBooks();
+    // return list;
+    // }
+    // Deleting a book by ID
+    public void deleteBookByID(int bookID) {
+        try {
+            bookRepo.deleteById(bookID);
+        } catch (EmptyResultDataAccessException e) {
+            throw new IllegalArgumentException("Book not found"); // Book with given ID not found
+        }
     }
 
     // Updating a book
