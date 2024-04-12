@@ -23,6 +23,11 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+    @GetMapping("/ ")
+    public String index() {
+        return "index";
+    }
+
     @GetMapping("/books/{bookID}")
     public ResponseEntity<Book> getBook(@PathVariable("bookID") int bookId) {
 
@@ -62,15 +67,26 @@ public class BookController {
 
     }
 
+    // @DeleteMapping("/books/{bookID}")
+    // public ResponseEntity<String> deleteBookByID(@PathVariable int bookID) {
+    // try {
+    // return ResponseEntity.of(Optional.of("This Book with ID:" + bookID + " has
+    // now been Deleted !"));
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    // }
+
+    // }
     @DeleteMapping("/books/{bookID}")
     public ResponseEntity<String> deleteBookByID(@PathVariable int bookID) {
         try {
-            return ResponseEntity.of(Optional.of("This Book with ID:" + bookID + " has now been Deleted !"));
+            bookService.deleteBookByID(bookID); // Call service method to delete book
+            return ResponseEntity.ok("Book deleted successfully");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete book");
         }
-
     }
 
     @PutMapping("/books/{bookID}")
